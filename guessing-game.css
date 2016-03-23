@@ -1,0 +1,56 @@
+body{
+	font-family:Arial;
+	margin: 50px;
+
+}
+h1{
+	text-align:center;
+	color:#00bf00;
+	
+}
+img{
+	display: block;
+	height:100px;
+	width:auto;
+	margin-right:auto;
+	margin-left:auto;
+}
+h2, label{
+	color:#00bf00;
+}
+label{
+	font-size: 20px;
+	font-style: bold;
+}
+
+.buttons{
+	display: block;
+	margin-top:20px;
+
+}
+
+label, input{
+	display:block;
+	margin-bottom: 10px;
+}
+input[type=text]{
+	border:2px #00bf00 solid;
+}
+button {
+    background-color: #00bf00; 
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+}
+.game{
+	display: inline-block;
+	width:500px;
+	margin-left: auto;
+	margin-right:auto;
+}
+
