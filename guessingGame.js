@@ -2,6 +2,8 @@
 // try to elminate these global variables in your project, these are here just to start.
 (function(){
 var winningNumber = generateWinningNumber();
+var guesses = [];
+var playersGuess;
 
 /* **** Guessing Game Functions **** */
 
@@ -13,9 +15,9 @@ function generateWinningNumber(){
 }
 function playersGuessSubmission(){
 	// add code here
-	var playersGuess = +$('#input').value;
-	checkGuess();
+	playersGuess = +$('#input').value;
 	$('#input').value = "";
+	checkGuess();
 }
 
 // Fetch the Players Guess
@@ -48,42 +50,42 @@ function guessMessage(){
 
 function checkGuess(){
 	// add code here
-	var guesses = [];
-	if(winningNumber == playersGuess){
-		var message = $('<h2>You win!</h2>');
-		$('#number').append(message);
+	for(var i = 0; i < guesses.length; i++){
+		if (guesses[i] == playersGuess){
+			$('p').text('You already guessed that! Try a new number.');
+		}
 	}
-	
-	else if (!playersGuess in guesses){
+
+	if (guesses.length > 5){
+		$('p').text('You used all five guesses! Press the Play Again! button to try again.');
+	}
+	else if(winningNumber == playersGuess){
+		$('p').text('You win!');
+	}
+
+	else {
 		guesses.push(playersGuess);
 		var message = 'Try again!'
 		guessMessage();
-		var messageHTML = $('<h2>' + message + '</h2>');
-		$('#number').append(messageHTML);
+		$('p').text(message);
 	}
-	else if (playersGuess in guesses) {
-		var message = $('<h2>You already guessed that! Try a new number.</h2>');
-		$('#number').append(message);
-	}
+
 }
 
 // Create a provide hint button that provides additional clues to the "Player"
 
 function provideHint(){
 	// add code here
-	
-		var hint = "Your number is one of the following numbers: " + winningNumber + ", " + Math.floor(Math.random() * 99 + 1) + ", " + Math.floor(Math.random() * 99 + 1) + ".";
-		var hintHTML = $('<h2>' + hint + '</h2>');
-		$('#hint').append(hintHTML);
+		var hint = "Your number is one of the following numbers: " + winningNumber + ", 2, 58.";
+		
+		$('p').text(hint);
 }
 
 // Allow the "Player" to Play Again
 
 function playAgain(){
 	// add code here
-	
-		$('#hint').children().remove();
-		$('#number').children().remove();
+		$('p').text("");
 		winningNumber = generateWinningNumber();
 
 }
@@ -91,7 +93,9 @@ function playAgain(){
 
 /* **** Event Listeners/Handlers ****  */
 $(document).ready(function(){
+	$('p').css({'color' : '#00bf00', 'font-family' : 'Arial', 'font-size' : '20px'})
 	$('#number').on('click', playersGuessSubmission);
+	$('#input').on('enter', playersGuessSubmission)
 	$('#playAgain').on('click', playAgain);
 	$('#hint').on('click', provideHint);
 
