@@ -71,8 +71,6 @@ function checkGuess(){
 		$('p').css({'color' : '#D3FC06', 'font-weight' : 'bold', 'text-shadow' : '2px 2px #B2D71D'});
 		$('#hint').off('click', provideHint);
 		$('#number').off('click', playersGuessSubmission);
-		$('#input').off('enter', playersGuessSubmission);
-
 	}
 
 	else {
@@ -104,8 +102,11 @@ function playAgain(){
 		hint2 = generateWinningNumber();
 		$('#hint').on('click', provideHint);
 		$('#number').on('click', playersGuessSubmission);
-		$('#input').on('enter', playersGuessSubmission);
-
+		$('#input').on('keypress', function(e) {
+    		if(e.which == 13) {
+        		playersGuessSubmission();
+    		}
+		});
 }
 
 
@@ -113,9 +114,15 @@ function playAgain(){
 $(document).ready(function(){
 	$('p').css({'color' : '#00bf00', 'font-family' : 'Arial', 'font-size' : '20px'});
 	$('#number').on('click', playersGuessSubmission);
-	$('#input').on('enter', playersGuessSubmission);
+	$('#input').on('keypress', function(e) {
+    	if(e.which == 13) {
+        	playersGuessSubmission();
+    	}
+	});
 	$('#playAgain').on('click', playAgain);
 	$('#hint').on('click', provideHint);
 
 });
 })();
+
+
