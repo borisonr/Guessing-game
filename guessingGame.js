@@ -4,6 +4,9 @@
 var winningNumber = generateWinningNumber();
 var guesses = [];
 var playersGuess;
+var message;
+var hint1 = generateWinningNumber();
+var hint2 = generateWinningNumber();
 
 /* **** Guessing Game Functions **** */
 
@@ -15,8 +18,8 @@ function generateWinningNumber(){
 }
 function playersGuessSubmission(){
 	// add code here
-	playersGuess = +$('#input').value;
-	$('#input').value = "";
+	playersGuess = +$('#input').val();
+	$('#input').val("");
 	checkGuess();
 }
 
@@ -27,23 +30,26 @@ function playersGuessSubmission(){
 function lowerOrHigher(){
 	// add code here
 	if(playersGuess < winningNumber){
-		message+=" Your number is too low!";
+		return " Your number is too low!";
 	}
 	else if(playersGuess > winningNumber){
-		message+=" Your number is too high!";
+		return " Your number is too high!";
 	}
 }
 
 function guessMessage(){
 	lowerOrHigher();
 	if (Math.abs(playersGuess-winningNumber) <= 5){
-		message+=" You are within 5 digits of my number";
+		return " You are within 5 digits of my number";
 	}
 	else if (Math.abs(playersGuess-winningNumber) > 5 && Math.abs(playersGuess-winningNumber) <= 10){
-		message+=" You are within 10 digits of my number";
+		return " You are within 10 digits of my number";
 	}
 	else if (Math.abs(playersGuess-winningNumber) > 10 && Math.abs(playersGuess-winningNumber) <= 15){
-		message+=" You are within 15 digits of my number";
+		return " You are within 15 digits of my number";
+	}
+	else {
+		return "";
 	}
 }
 // Check if the Player's Guess is the winning number 
@@ -61,12 +67,17 @@ function checkGuess(){
 	}
 	else if(winningNumber == playersGuess){
 		$('p').text('You win!');
+		$('p').animate({ 'font-size' : '50px'}, 'fast');
+		$('p').css({'color' : '#D3FC06', 'font-weight' : 'bold', 'text-shadow' : '2px 2px #B2D71D'});
+		$('#hint').off('click', provideHint);
+		$('#number').off('click', playersGuessSubmission);
+		$('#input').off('enter', playersGuessSubmission);
+
 	}
 
 	else {
 		guesses.push(playersGuess);
-		var message = 'Try again!'
-		guessMessage();
+		var message = 'Try again!' + lowerOrHigher() + guessMessage();
 		$('p').text(message);
 	}
 
@@ -76,7 +87,7 @@ function checkGuess(){
 
 function provideHint(){
 	// add code here
-		var hint = "Your number is one of the following numbers: " + winningNumber + ", 2, 58.";
+		var hint = "Your number is one of the following numbers: " + winningNumber + ", " + hint1 + ", " + hint2 + ".";
 		
 		$('p').text(hint);
 }
@@ -85,17 +96,24 @@ function provideHint(){
 
 function playAgain(){
 	// add code here
+		guesses = [];
+		$('p').css({'color' : '#00bf00', 'font-family' : 'Arial', 'font-size' : '20px', 'text-shadow' : 'none'})
 		$('p').text("");
 		winningNumber = generateWinningNumber();
+		hint1 = generateWinningNumber();
+		hint2 = generateWinningNumber();
+		$('#hint').on('click', provideHint);
+		$('#number').on('click', playersGuessSubmission);
+		$('#input').on('enter', playersGuessSubmission);
 
 }
 
 
 /* **** Event Listeners/Handlers ****  */
 $(document).ready(function(){
-	$('p').css({'color' : '#00bf00', 'font-family' : 'Arial', 'font-size' : '20px'})
+	$('p').css({'color' : '#00bf00', 'font-family' : 'Arial', 'font-size' : '20px'});
 	$('#number').on('click', playersGuessSubmission);
-	$('#input').on('enter', playersGuessSubmission)
+	$('#input').on('enter', playersGuessSubmission);
 	$('#playAgain').on('click', playAgain);
 	$('#hint').on('click', provideHint);
 
