@@ -52,7 +52,11 @@ function guessMessage(){
 		return "";
 	}
 }
-// Check if the Player's Guess is the winning number 
+// Check if the Player's Guess is the winning number
+function disableButtons(){
+		$('#hint').off('click', provideHint);
+		$('#number').off('click', playersGuessSubmission);
+} 
 
 function checkGuess(){
 	// add code here
@@ -64,13 +68,13 @@ function checkGuess(){
 
 	if (guesses.length > 5){
 		$('p').text('You used all five guesses! Press the Play Again! button to try again.');
+		disableButtons();
 	}
 	else if(winningNumber == playersGuess){
 		$('p').text('You win!');
 		$('p').animate({ 'font-size' : '50px'}, 'fast');
 		$('p').css({'color' : '#D3FC06', 'font-weight' : 'bold', 'text-shadow' : '2px 2px #B2D71D'});
-		$('#hint').off('click', provideHint);
-		$('#number').off('click', playersGuessSubmission);
+		disableButtons();
 	}
 
 	else {
